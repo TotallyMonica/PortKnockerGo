@@ -211,7 +211,12 @@ func main() {
 	}
 
 	results := communicate(address, masterPort, protocol, ignoredPorts, timeout, verbose)
-	filename := fmt.Sprintf("results_%s.csv", strings.ReplaceAll(strings.ReplaceAll(strings.Join(strings.Split(address, ":")[:len(strings.Split(address, ":"))-1], "_"), ".", "_"), "_", "_"))
+	filenameFriendlyAddr := strings.ReplaceAll(address, ":", "_")
+	filenameFriendlyAddr = strings.ReplaceAll(filenameFriendlyAddr, "&", "_")
+	filenameFriendlyAddr = strings.ReplaceAll(filenameFriendlyAddr, ".", "_")
+	filenameFriendlyAddr = strings.ReplaceAll(filenameFriendlyAddr, "[", "")
+	filenameFriendlyAddr = strings.ReplaceAll(filenameFriendlyAddr, "]", "")
+	filename := fmt.Sprintf("results_%s.csv", filenameFriendlyAddr)
 	file, err := os.Create(filename)
 	if err != nil {
 		log.Fatalf("Error while creating file %s\n%s\n", filename, err)
